@@ -1,0 +1,54 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition Output</title>
+</head>
+<body>
+    <!--<form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept=".mp4">
+        <button type="submit">Upload and Transcribe</button>
+    </form>
+    -->
+
+    <h1>Speech Recognition Output</h1>
+    <button onclick="startTranscription()">Start</button>
+    <button onclick="pauseTranscription()">Pause</button>
+    <button onclick="resumeTranscription()">Resume</button>
+    <button onclick="stopTranscription()">Stop</button>
+
+    <div id="current_status" style="color:chocolate ; margin-bottom: 10px;"></div>
+    <h3>Output:</h3>
+    <div id="output-container" ></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function startTranscription() {
+            socket.emit('start_command', { command: 'start' });
+        }
+
+        function pauseTranscription() {
+            socket.emit('transcription_command', { command: 'pause' });
+        }
+
+        function resumeTranscription() {
+            socket.emit('transcription_command', { command: 'resume' });
+        }
+
+        function stopTranscription() {
+            socket.emit('stop_command', { command: 'stop' });
+        }
+
+        socket.on('update', function(data) {
+            document.getElementById('output-container').innerHTML = data.text ;
+        });
+        socket.on('status', function(data) {
+            document.getElementById('current_status').innerHTML =  data.text ;
+        });
+    </script>
+</body>
+</html>
