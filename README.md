@@ -1,5 +1,4 @@
 # LiveSpeechToText-Web
-Real-Time Speech Recognition Web Application
 This project implements a real-time speech recognition web application using Python, Flask, and Socket.IO. Users can access the application through a web browser, speak into their microphone, and instantly see their speech transcribed into text on the website.
 
 Features:
